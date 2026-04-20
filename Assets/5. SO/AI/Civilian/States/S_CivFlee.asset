@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01f542c06373b254891eed3f2dc2e2ec, type: 3}
+  m_Name: S_CivFlee
+  m_EditorClassIdentifier: Assembly-CSharp::Scripts.FSM.Base.StateMachine.StateData
+  <State>k__BackingField: {fileID: 11400000, guid: 7a1391652154b124ebe64be3054e5364,
+    type: 2}
+  <StateConditions>k__BackingField:
+  - {fileID: 11400000, guid: 3ab593ac9d754b44fbf3784c9af7c403, type: 2}
+  <ExitStates>k__BackingField:
+  - {fileID: 11400000, guid: 02168e89df64c9c4c820cabe57ea19d4, type: 2}

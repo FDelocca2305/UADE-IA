@@ -1,0 +1,49 @@
+# Normalizar texto a LF (profesional, multiplataforma)
+*.cs text eol=lf
+*.shader text eol=lf
+*.cginc text eol=lf
+*.hlsl text eol=lf
+*.glsl text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Unity assets (YAML-based) → siempre LF
+*.meta text eol=lf
+*.unity text eol=lf
+*.prefab text eol=lf
+*.anim text eol=lf
+*.controller text eol=lf
+*.asset text eol=lf
+*.asmdef text eol=lf
+
+# Scripts especiales
+*.sh text eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+
+# Imágenes, modelos, binarios con LFS
+*.psd filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.fbx filter=lfs diff=lfs merge=lfs -text
+
+# Excluir archivos de Unity de estadísticas de lenguajes
+*.meta linguist-generated=true
+*.unity linguist-generated=true
+*.asset linguist-generated=true
+*.prefab linguist-generated=true
+*.controller linguist-generated=true
+*.asmdef linguist-generated=true
+*.anim linguist-generated=true
+
+# Forzar detección correcta de lenguajes
+*.m linguist-language=C#
+*.cginc linguist-language=HLSL
+*.shader linguist-language=ShaderLab
+
+# Excluir carpetas de terceros
+Assets/Plugins/** linguist-vendored=true
+Packages/** linguist-vendored=true
+Library/** linguist-vendored=true

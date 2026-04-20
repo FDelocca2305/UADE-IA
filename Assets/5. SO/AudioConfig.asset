@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dac59d11c2e2458b89b04f0832ae24f6, type: 3}
+  m_Name: AudioConfig
+  m_EditorClassIdentifier: Assembly-CSharp::AudioConfig
+  audioMixer: {fileID: 24100000, guid: 01392e6e4e977294ea9f2a546209f31d, type: 2}
+  gameplayBackground: {fileID: 8300000, guid: b4e08a5a05a454444a13fce3b27b3865, type: 3}
+  titleBackground: {fileID: 8300000, guid: ceaa30226f2efc94bbe2dd1b9e107d13, type: 3}
+  maleHurtSFX: {fileID: 8300000, guid: d3de47199eeda024db3941a464247c22, type: 3}
+  maleDeathSFX: {fileID: 8300000, guid: c50cb838878dc0342aeca2a19b39137a, type: 3}
+  femaleHurtSFX: {fileID: 8300000, guid: e2910258353826c4ea8b51a88890ba3e, type: 3}
+  femaleDeathSFX: {fileID: 8300000, guid: b6e4dabc4eba5dc42ad8c4ee93a8a248, type: 3}
+  collectItemSFX: {fileID: 8300000, guid: c1e3ae00c83297f45b4f09c249356d86, type: 3}
+  cashRegisterSFX: {fileID: 8300000, guid: 3cc196f9f0e32884abc3df39b3829146, type: 3}
+  canEscapeSFX: {fileID: 8300000, guid: 4a0cc8b65b0612d49ad2b175d4cd6aba, type: 3}
+  winSFX: {fileID: 8300000, guid: 650d2c5a20c376946b5bb94d5980d755, type: 3}
+  lostSFX: {fileID: 8300000, guid: 3e908a9accb7fef439acfebbaa19b7c2, type: 3}
+  escapeSFX: {fileID: 8300000, guid: 8e5152681291cf2419e4b6b942fb5c2d, type: 3}
+  clickButtonSFX: {fileID: 8300000, guid: d2053ea9a7d17134bbd9d89f8d520dc7, type: 3}
+  hoverButtonSFX: {fileID: 8300000, guid: 3e1e1521d070686429c7cbaeae53c4ce, type: 3}
+  playerPistolSingleShotSFX: {fileID: 8300000, guid: 40e655c94eec4ee4ca3bd034b281ef9c,
+    type: 3}
+  enemyPistolSingleShotSFX: {fileID: 8300000, guid: 3fed736caafbb96489167a90d4343175,
+    type: 3}
+  punchSFX: {fileID: 8300000, guid: 755a39f5a81b14e4ebe2ecee5173dc5c, type: 3}
+  heartBeatingSFX: {fileID: 8300000, guid: 54f11bbc201f32145b6200e5cc8464b1, type: 3}
+  concreteFootstepsSFX: {fileID: 8300000, guid: 4c956acf16dd1904aa4fb95e9bb084c2,
+    type: 3}

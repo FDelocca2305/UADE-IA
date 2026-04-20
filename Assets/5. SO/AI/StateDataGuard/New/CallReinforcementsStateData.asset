@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01f542c06373b254891eed3f2dc2e2ec, type: 3}
+  m_Name: CallReinforcementsStateData
+  m_EditorClassIdentifier: Assembly-CSharp::Scripts.FSM.Base.StateMachine.StateData
+  <State>k__BackingField: {fileID: 11400000, guid: 028c5891dabc7d046ad37da8011ebcd0,
+    type: 2}
+  <StateConditions>k__BackingField:
+  - {fileID: 11400000, guid: f4d304b9abdf8ff4aa0044673b13e5a6, type: 2}
+  - {fileID: 11400000, guid: 550a0175d05d90a44bf6220b84c70da3, type: 2}
+  <ExitStates>k__BackingField:
+  - {fileID: 11400000, guid: 07256c893c662c84d8bceee1c995bf7f, type: 2}
+  - {fileID: 11400000, guid: accda6c9352b8e944ac788ca1888ff49, type: 2}

@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8662bb2fb3632db49ac648a150cf31d6, type: 3}
+  m_Name: AllyData
+  m_EditorClassIdentifier: Assembly-CSharp::AllyDataSO
+  maxHealth: 100
+  moveSpeed: 6
+  shootCooldown: 0.8
+  rotationSpeed: 10
+  characterName: Character
+  characterColor: {r: 1, g: 1, b: 1, a: 1}
+  <gender>k__BackingField: 0
+  <detectionRange>k__BackingField: 12
+  <fieldOfView>k__BackingField: 90
+  <personalityType>k__BackingField: 1
+  <idleTime>k__BackingField: 3
+  <searchTime>k__BackingField: 3
+  <patrolSpeed>k__BackingField: 2
+  <rotationSpeed>k__BackingField: 5
+  <patrolPoints>k__BackingField: []
+  <attackRange>k__BackingField: 8
+  <chaseSpeed>k__BackingField: 5
+  <bulletData>k__BackingField: {fileID: 11400000, guid: 29336a3ef3dee654d95f3bea6a27249c,
+    type: 2}
+  <followDistance>k__BackingField: 1
+  <followSpeed>k__BackingField: 6
+  <followDistanceBuffer>k__BackingField: 2
+  <useFlocking>k__BackingField: 1
+  <followPlayerWeight>k__BackingField: 0.6
+  <flockingWeight>k__BackingField: 0.4
+  <mass>k__BackingField: 1
+  <maxForce>k__BackingField: 10
+  <maxSpeed>k__BackingField: 3
+  <slowingDistance>k__BackingField: 2
+  <obstaclesMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 8192
+  <avoidRadius>k__BackingField: 2
+  <avoidAngle>k__BackingField: 180
+  <personalArea>k__BackingField: 0.2
+  <investigationRotateSpeed>k__BackingField: 180
+  <investigationMoveSpeedFactor>k__BackingField: 0.7
+  <investigationArrivalTolerance>k__BackingField: 1.2
+  <searchDuration>k__BackingField: 4
+  <coverProbeRadius>k__BackingField: 0.9
+  <coverProbeDistance>k__BackingField: 4
+  <coverOffsetFromObstacle>k__BackingField: 1.25
+  <coverRepositionCooldown>k__BackingField: 1.2
+  <coverArrivalTolerance>k__BackingField: 0.9
+  <coverHealthRegenPerSecond>k__BackingField: 10
+  <coverExitHealthPercent>k__BackingField: 0.958
+  <coverMinDuration>k__BackingField: 1.5
+  <smokePrefab>k__BackingField: {fileID: 127842, guid: a98a28f48fb0baf49a6f4b5cbf708902,
+    type: 3}
+  <smokeLifetime>k__BackingField: 5
+  <smokeScale>k__BackingField: 3
+  <smokeCooldown>k__BackingField: 6
+  <smokeObstacleLayerName>k__BackingField: ObstacleAI

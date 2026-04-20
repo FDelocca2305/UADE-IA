@@ -1,0 +1,1 @@
+C:\Users\franc\Downloads\UADE-Programacion-Mobile\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\cxx\RelWithDebInfo\705c255x\obj\armeabi-v7a

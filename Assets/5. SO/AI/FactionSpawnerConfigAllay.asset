@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6efa62be4686034390e90cb731fd033, type: 3}
+  m_Name: FactionSpawnerConfigAllay
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Spawning.FactionSpawnerConfig
+  <factionType>k__BackingField: 1
+  <unitsToSpawn>k__BackingField: 3
+  <spawnLeader>k__BackingField: 0
+  <wavesCount>k__BackingField: 3
+  <delayBetweenWaves>k__BackingField: 3
+  <unitPrefab>k__BackingField: {fileID: 7720983636413093424, guid: 195d7de90d490c64888ca67d1bfc0d9d,
+    type: 3}
+  <leaderPrefab>k__BackingField: {fileID: 2447479155139023508, guid: 3c2322638dee0824c82bf7dfd18b2220,
+    type: 3}
+  <allyLeaderData>k__BackingField: {fileID: 0}
+  <spawnPattern>k__BackingField: 1
+  <spawnRadius>k__BackingField: 5
+  <gridSize>k__BackingField: {x: 3, y: 3}
+  <spacing>k__BackingField: 2
+  <waypointMode>k__BackingField: 1
+  <waypointRadius>k__BackingField: 8
+  <waypointsPerGuard>k__BackingField: 4
+  <allyFlockingProfile>k__BackingField: {fileID: 11400000, guid: 30691810f383d2a4384bd5a3a9cdade5,
+    type: 2}
+  <followDistance>k__BackingField: 3
+  <spawnDelay>k__BackingField: 0
+  <delayBetweenSpawns>k__BackingField: 0.1

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 113b497febf648619f4670a8e5c46ad8, type: 3}
+  m_Name: FlockingProfile
+  m_EditorClassIdentifier: Assembly-CSharp::Game.AI.Flocking.FlockingProfile
+  separationConfig: {fileID: 11400000, guid: 9635fcd1e060f85479bd4acf1d6cc3f0, type: 2}
+  cohesionConfig: {fileID: 11400000, guid: 8c9015b8abb9bfe4cb03c361cb8b70f5, type: 2}
+  alignmentConfig: {fileID: 11400000, guid: fc7936ee86b54034cbb057f8d55e742f, type: 2}
+  detectionRadius: 20
+  maxSpeed: 1
+  maxForce: 1
+  maxNeighbors: 20
