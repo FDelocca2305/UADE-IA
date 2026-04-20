@@ -762,22 +762,6 @@ public class PlayerDetector : MonoBehaviour, IPlayerDetector
     }
     
     /// <summary>
-    /// MEJORA: Get detection level for quick checks
-    /// </summary>
-    public PlayerDetectionLevel GetDetectionLevel()
-    {
-        return m_lastDetectionResult.level;
-    }
-    
-    /// <summary>
-    /// MEJORA: Check if detection is significant enough for action
-    /// </summary>
-    public bool HasSignificantDetection()
-    {
-        return m_lastDetectionResult.IsSignificant;
-    }
-    
-    /// <summary>
     /// MEJORA: Runtime configuration of personality
     /// </summary>
     public void SetPersonalityType(AIPersonalityType p_newPersonality)
