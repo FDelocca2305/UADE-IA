@@ -1,93 +1,144 @@
-# UADE-Programacion-Mobile
+# VaultBreakers — Entrega 2 (Inteligencia Artificial)
 
+Juego de **sigilo / heist top-down** desarrollado en Unity. El jugador es un ladrón que se
+infiltra en instalaciones vigiladas para **recolectar el botín** (monedas y diamantes) y cumplir
+los objetivos de la misión, evitando o neutralizando a una guarnición de enemigos controlados por IA.
 
+Toda la jugabilidad gira alrededor de la IA: percepción (Line of Sight), toma de decisiones
+(FSM, árbol de decisiones, selección por pesos), **movimiento inteligente (Steering Behaviors)** y
+**navegación (Pathfinding A\*)**.
 
-## Getting started
+---
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## 1. Ficha del juego
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+| | |
+|---|---|
+| **Nombre** | VaultBreakers |
+| **Género** | Sigilo / Heist top-down (acción-sigilo, mobile) |
+| **Objetivo** | Infiltrarse, recolectar el botín (monedas/diamantes), cumplir los objetivos y sobrevivir a la guarnición de IA |
+| **Plataforma** | Mobile (controles táctiles); en desktop el mouse simula el touch (`TouchSimulation`) |
+| **Escenas jugables** | `Gameplay`, `Gameplay 2` |
+| **Flujo de escenas** | `MainMenuScene` → `Loading` → `Gameplay` / `Gameplay 2` |
 
-## Add your files
+### Controles
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+**Mobile (principal)** — doble joystick virtual flotante (`PlayerTouchMovement.cs`):
+
+- **Joystick izquierdo:** movimiento del personaje.
+- **Joystick derecho:** apuntar y disparar (disparo continuo / ráfaga). Suelta el dedo para dejar de disparar.
+- Tutoriales contextuales de "arrastrar" y "disparar" al iniciar el nivel.
+
+**Desktop** — no hay control por teclado en el jugador de gameplay. El Player usa
+`PlayerTouchMovement` (Enhanced Touch) junto con un componente `TouchSimulation`, por lo que en
+desktop se juega **arrastrando los joysticks con el mouse** (que simula el touch).
+
+> Existe un script suelto `TestPlayerController.cs` (movimiento WASD) usado durante el desarrollo,
+> pero **no está asignado al prefab del jugador** ni a las escenas; no controla el juego real.
+
+El arma usa cargador con **recarga automática** al vaciarse (`MainCharacter.cs`).
+
+---
+
+## 2. Arquitectura general de la IA
+
+La IA está organizada en capas desacopladas que se combinan por agente:
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/CrixDeveloper/UADE-Programacion-Mobile.git
-git branch -M main
-git push -uf origin main
+                ┌─────────────────────────────┐
+                │   PERCEPCIÓN — Line of Sight │  PlayerDetector.cs
+                │   (FOV + raycast + niveles)  │
+                └──────────────┬──────────────┘
+                               │ resultado de detección
+                               ▼
+   ┌───────────────────────────────────────────────────────────┐
+   │                  TOMA DE DECISIONES                         │
+   │   FSM (StateMachine + States ScriptableObject)             │
+   │   Árbol de Decisiones + Ruleta de pesos (Civil)            │
+   └───────────────┬───────────────────────────┬───────────────┘
+                   │ "a dónde ir"               │ "qué hacer"
+                   ▼                            ▼
+        ┌────────────────────┐      ┌────────────────────────────┐
+        │  PATHFINDING (A\*)  │ ──▶ │   STEERING BEHAVIORS         │
+        │  grafo + string-    │      │  Seek / Flee / Arrive /     │
+        │  pulling LoS        │      │  Pursue / Evade + Obstacle  │
+        └────────────────────┘      │  Avoidance + Flocking        │
+                                     └────────────────────────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │  BLACKBOARD global  │  comunicación entre agentes
+                    │  (posición jugador, │  (alertas, refuerzos,
+                    │   nivel de alerta)  │   coordinación)
+                    └─────────────────────┘
 ```
 
-## Integrate with your tools
+- **Percepción (LoS):** `Assets/2. Scripts/AI/Core/PlayerDetector.cs`. Distancia → FOV (principal + periférico) → raycast dual (rayo principal + elevado) → nivel de detección graduado (`Immediate / Clear / Partial / Peripheral / None`). El resultado alimenta tanto a la FSM como al árbol de decisiones.
+- **Decisión:** FSM modular basada en ScriptableObjects (`Assets/2. Scripts/FSM/`) + árbol de decisiones con ruleta de pesos para los civiles (`Assets/2. Scripts/AI/DecisionTree/`).
+- **Pathfinding:** A\* sin allocaciones sobre un grafo de waypoints bakeado en la escena, con suavizado por *string-pulling* (`Assets/2. Scripts/AI/Pathfinding/`).
+- **Steering:** biblioteca de comportamientos de Reynolds (`Assets/2. Scripts/AI/Core/Steering/Steering.cs`) + evasión de obstáculos + flocking.
+- **Blackboard:** estado compartido para coordinación multi-agente (`Assets/2. Scripts/Services/MicroServices/BlackboardService/`).
 
-- [ ] [Set up project integrations](https://gitlab.com/CrixDeveloper/UADE-Programacion-Mobile/-/settings/integrations)
 
-## Collaborate with your team
+---
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+## 3. Qué sistemas usa cada tipo de agente
 
-## Test and Deploy
+El proyecto tiene **4 arquetipos de IA** que actúan de forma claramente diferenciada:
 
-Use the built-in continuous integration in GitLab.
+### 🛡️ Guardia (`Guard.cs`) — enemigo hostil
+- **Decisión:** FSM (Idle, Patrol, Chase, Attack, Investigate, Search, Cover, Detain, CallReinforcements).
+- **Movimiento:** Steering **Seek / Arrive** (patrulla y reposicionamiento), **Pursuit** (persecución con predicción) y **Evade**, + **Obstacle Avoidance**.
+- **Reacción al jugador:** según su **personalidad** (`AIPersonalityType`: Aggressive / Cautious / Conservative / Elite…), cambia el umbral de detección con el que investiga o ataca, su velocidad y su tiempo de reacción.
+- **Coordinación:** publica/consulta el Blackboard (última posición conocida, pedido de refuerzos).
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### 🏃 Civil (`Civilian.cs` + `CivilianDecisionTreeRunner.cs`) — agente reactivo
+- **Decisión:** **Árbol de decisiones** cuya raíz es `HasLoS()`, combinado con una **ruleta de pesos** (utility) que elige una *stance*: **Escape / Attack / Dying** según distancia al refugio, decay de LoS y disponibilidad de camino.
+- **Navegación:** usa **Pathfinding A\*** para huir hacia un nodo seguro, con suavizado de camino y seguimiento de waypoints.
+- **Movimiento:** Steering **Flee / Evade** (escape inmediato y evasión predictiva) y **Seek / Arrive** (seguimiento de la ruta A\*).
+- **Comportamientos:** Idle, Flee, Evade, Pursuit, Attack melee, Alertar, Dying.
+- Es el agente que **integra los tres pilares**: decisión (árbol/ruleta) → pathfinding (A\*) → steering (Flee/Seek/Arrive/Evade).
 
-***
+### 🤝 Aliado (`Ally.cs`) — agente de apoyo (no hostil al jugador)
+- **Decisión:** FSM propia (FollowPlayer, ChaseGuard, AttackGuard, InvestigateGuard, SearchGuard, TakeCover, ThrowSmoke).
+- **Objetivo opuesto al guardia:** acompaña y protege al jugador, y **caza a los guardias** (no al jugador).
+- **Movimiento:** Steering **Pursue / Arrive / Seek** + Obstacle Avoidance, con **perfil de flocking** opcional para moverse en grupo.
 
-# Editing this README
+### 👑 Líder / AllyLeader (`Leader.cs`, `AllyLeader.cs`) — capa de coordinación
+- Extiende al guardia/aliado con una **FSM de coordinación** (HoldPerimeter, CoordinateReinforcements, CoverFire).
+- Gestiona un grupo de unidades, sondea el Blackboard por pedidos de refuerzo y posiciona a su escuadra.
+- Está **colocado a mano en ambas escenas** (`Leader 1.prefab` en `Gameplay`, `LeaderAlly.prefab` en `Gameplay 2`) y también puede instanciarse vía `FactionSpawner.cs`.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+| Agente | Decisión | Pathfinding | Steering principal | Rol |
+|--------|----------|-------------|--------------------|-----|
+| **Guardia** | FSM | — (steering directo) | Pursuit, Seek, Arrive, Evade | Detectar y neutralizar al jugador |
+| **Civil** | Árbol de decisiones + Ruleta | **A\*** | Flee, Evade, Seek, Arrive | Huir / atacar según contexto |
+| **Aliado** | FSM | — | Pursue, Arrive, Seek (+ Flocking) | Proteger al jugador y cazar guardias |
+| **Líder** | FSM de coordinación | — | Seek/Arrive | Coordinar al escuadrón |
 
-## Suggestions for a good README
+---
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## 4. Estructura del proyecto (IA)
 
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+```
+Assets/2. Scripts/
+├── AI/
+│   ├── Core/
+│   │   ├── PlayerDetector.cs            # Line of Sight
+│   │   ├── Steering/Steering.cs         # Seek, Flee, Arrive, Pursuit, Evade
+│   │   ├── Steering/ObstacleAvoidance.cs
+│   │   └── Flocking/                    # Separation, Cohesion, Alignment
+│   ├── DecisionTree/                    # Árbol de decisiones (Civil)
+│   └── Pathfinding/
+│       ├── Runtime/AStarNoAlloc.cs      # A* sin allocaciones
+│       ├── Runtime/PathSmoother.cs      # String-pulling (LoS)
+│       ├── Runtime/GraphAssets.cs       # Grafo de navegación
+│       └── Runtime/PathFollowerAgent.cs # Seguimiento de waypoints
+├── FSM/                                 # StateMachine + States (Guard/Civil/Ally)
+├── Characters/
+│   ├── Enemies/Guard.cs, Leader.cs, Civilian/Civilian.cs
+│   ├── Allies/Ally.cs, AllyLeader.cs
+│   └── MainCharacter/MainCharacter.cs   # Jugador
+├── Spawning/FactionSpawner.cs           # Spawn de facciones por oleadas (sistema extra)
+└── Services/MicroServices/BlackboardService/   # Coordinación multi-agente
+```
